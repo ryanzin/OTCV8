@@ -1,8 +1,6 @@
-local tab = addTab('TOOLS')
+local tab = addTab('Combo')
 
 local comboConfig = {}
-
-
 
 comboConfig.times = {
 	['canudo'] = 6,
