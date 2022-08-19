@@ -348,7 +348,7 @@ comboConfig.vocations = {
 
 
 comboConfig.toOrder = function(t)
-	return {t['canudo'], t['umTiro'], t['fast'], t['impact']}
+	return {t['canudo'], t['fast'], t['umTiro'], t['impact']}
 end
 
 
