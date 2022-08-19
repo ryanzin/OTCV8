@@ -1,4 +1,4 @@
-setDefaultTab('Tools')
+local tab = addTab('TOOLS')
 
 local comboConfig = {}
 
@@ -382,7 +382,7 @@ comboConfig.macroCombo = macro(1, 'Combo', function()
 			say(spell)
 		end
 	end
-end)
+end, tab)
 	
 
 ucwords = function(text)
