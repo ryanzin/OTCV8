@@ -384,11 +384,11 @@ end, tab)
 	
 
 ucwords = function(text)
-	text = text:split(' ')
-	local texto = ''
+	text = text:trim():split(' ')
+	local texto
 	for index, value in ipairs(text) do
 		value = value:sub(1, 1):upper() .. value:sub(2)
-		texto = texto ..  ' ' .. value
+		texto = texto and texto .. ' ' .. value or value
 	end
 	
 	return texto
@@ -430,7 +430,7 @@ onTextMessage(function(mode, text)
 			end
 			comboConfig.actualVocation = actualVoc
 			comboConfig.actualCombo = comboConfig.vocations[actualVoc:trim()]
-			talkPrivate(player:getName(), 'Combo Definido,' .. ucwords(actualVoc) .. '.')
+			talkPrivate(player:getName(), 'Combo Definido, ' .. ucwords(actualVoc) .. '.')
 		end
 	end
 end)
