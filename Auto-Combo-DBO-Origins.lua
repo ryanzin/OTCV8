@@ -205,10 +205,10 @@ comboConfig.vocations = {
 	},
 								
 	['Shenron'] = {
-		['canudo'] = 'Negative Karma Ball',
+		['canudo'] = 'Final Hell Cannon',
 		['impact'] = 'Combo Impact',
 		['umTiro'] = 'Omega Cannon',
-		['fast'] = 'Mystic Bash'
+		['fast'] = 'Negative Karma Ball'
 	},
 								
 	['Vegetto'] = {
