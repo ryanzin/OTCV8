@@ -432,7 +432,7 @@ onTextMessage(function(mode, text)
 			end
 			comboConfig.actualVocation = actualVoc
 			comboConfig.actualCombo = comboConfig.vocations[actualVoc:trim()]
-			talkPrivate(player:getName(), 'Combo Definido, você é um' .. ucwords(actualVoc) .. '.')
+			talkPrivate(player:getName(), 'Combo Definido,' .. ucwords(actualVoc) .. '.')
 		end
 	end
 end)
