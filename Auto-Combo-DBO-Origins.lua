@@ -347,15 +347,19 @@ comboConfig.vocations = {
 
 
 
+
+
 comboConfig.toOrder = function(t)
 	return {t['canudo'], t['fast'], t['umTiro'], t['impact']}
 end
 
+comboConfig.rearrangedTable = {}
 
 for vocation, spells in pairs(comboConfig.vocations) do
-	comboConfig.vocations[vocation] = nil
-	comboConfig.vocations[vocation:lower():trim()] = spells
+	comboConfig.rearrangedTable[vocation:lower()] = spells
 end
+
+comboConfig.vocations = nil
 
 comboConfig.setupMacro = macro(1, function()
 	return comboConfig.actualVocation and comboConfig.setupMacro.setOff() or g_game.look(player)
@@ -413,7 +417,6 @@ onTalk(function(name, level, mode, text)
 	end
 end)
 
-
 onTextMessage(function(mode, text)
 	text = text:lower()
 	if text:find('you see yourself') then
@@ -429,7 +432,7 @@ onTextMessage(function(mode, text)
 				actualVoc = actualVoc and actualVoc .. ' ' .. texto or texto
 			end
 			comboConfig.actualVocation = actualVoc
-			comboConfig.actualCombo = comboConfig.vocations[actualVoc:trim()]
+			comboConfig.actualCombo = comboConfig.rearrangedTable[actualVoc:trim()]
 			talkPrivate(player:getName(), 'Combo Definido, ' .. ucwords(actualVoc) .. '.')
 		end
 	end
