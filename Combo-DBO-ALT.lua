@@ -5,7 +5,7 @@ magOrder = {
 }
 
 formattedSpell = function(spell)
-	local spell = actualVocation .. ' ' .. spell
+	spell = actualVocation .. ' ' .. spell
 	return spell:lower():trim()
 end
 
@@ -54,12 +54,13 @@ onTextMessage(function(mode, text)
 		local regexMatch = regexMatch(text, regexLook)
 		if #regexMatch > 0 then
 			actualVocation = regexMatch[1][2]
-			for _, text in ipairs(removeFromLook) do
-				actualVocation = actualVocation:gsub(text, '')
+			for _, value in ipairs(removeFromLook) do
+				actualVocation = actualVocation:gsub(value, '')
 			end
 			if actualVocation:lower() == 'black goku' then
 				actualVocation = 'Goku Black'
 			end
+			actualVocation = actualVocation:trim()
 			talkPrivate(player:getName(), 'Você é um ' .. actualVocation .. ', seu combo já foi automaticamente definido.')
 		end
 	end
