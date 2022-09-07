@@ -4,6 +4,34 @@ magOrder = {
 	{'Blast', 1, 200}
 }
 
+isExhausted = function(magia)
+	local savedTime = storage.exhaustCombo[magia]
+	if type(savedTime) ~= 'number' then
+		return false
+	end
+	
+	
+	if type(os) == 'table' then
+		if savedTime <= os.time() then
+			return false
+		end
+	elseif savedTime <= now then
+		return false
+	end
+
+	storage.exhaustCombo[magia] = nil
+	return true
+end
+
+setExhaust = function(magia, total)
+	if type(os) == 'table' then
+		storage.exhaustCombo[magia] = os.time() + total
+	else
+		storage.exhaustCombo[magia] = now + (total * 1000) - 250
+	end
+	return true
+end
+
 formattedSpell = function(spell)
 	spell = actualVocation .. ' ' .. spell
 	return spell:lower():trim()
@@ -17,8 +45,7 @@ macro(100, "Combo", function()
 			for _, magConfig in ipairs(magOrder) do
 				if playerLevel > magConfig[3] then
 					local formattedSpell = formattedSpell(magConfig[1])
-					local checkExhaust = storage.exhaustCombo[formattedSpell]
-					if not checkExhaust or checkExhaust <= os.time() then
+					if not isExhausted(formattedSpell) then
 						return say(formattedSpell)
 					end
 				end
@@ -38,7 +65,7 @@ onTalk(function(name, level, mode, text, channelId, pos)
 			for _, magConfig in ipairs(magOrder) do
 				local formattedSpell = formattedSpell(magConfig[1])
 				if text == formattedSpell then
-					storage.exhaustCombo[formattedSpell] = os.time() + magConfig[2]
+					setExhaust[formattedSpell]
 					break
 				end
 			end
