@@ -27,7 +27,7 @@ macro(100, "Combo", function()
 	else
 		return g_game.look(player)
 	end
-end)
+end, toolsTab)
 
 storage.exhaustCombo = storage.exhaustCombo or {}
 
