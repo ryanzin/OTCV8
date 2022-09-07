@@ -65,7 +65,7 @@ onTalk(function(name, level, mode, text, channelId, pos)
 			for _, magConfig in ipairs(magOrder) do
 				local formattedSpell = formattedSpell(magConfig[1])
 				if text == formattedSpell then
-					setExhaust[formattedSpell]
+					setExhaust(formattedSpell)
 					break
 				end
 			end
