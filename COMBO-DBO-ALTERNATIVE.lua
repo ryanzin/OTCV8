@@ -50,7 +50,7 @@ local regexLook = [[You see yourself. You are ([a-z 'A-z- '0-9]*).]]
 local removeFromLook = {' Reborn', ' Super Alternative', ' Alternative'}
 
 onTextMessage(function(mode, text)
-	if not actualVocation
+	if not actualVocation then
 		local regexMatch = regexMatch(text, regexLook)
 		if #regexMatch > 0 then
 			actualVocation = regexMatch[1][2]
