@@ -56,7 +56,6 @@ onTextMessage(function(mode, text)
 			actualVocation = regexMatch[1][2]
 			for _, text in ipairs(removeFromLook) do
 				actualVocation = actualVocation:gsub(text, '')
-				break
 			end
 			if actualVocation:lower() == 'black goku' then
 				actualVocation = 'Goku Black'
