@@ -57,10 +57,10 @@ onTextMessage(function(mode, text)
 			for _, value in ipairs(removeFromLook) do
 				actualVocation = actualVocation:gsub(value, '')
 			end
+			actualVocation = actualVocation:trim()
 			if actualVocation:lower() == 'black goku' then
 				actualVocation = 'Goku Black'
 			end
-			actualVocation = actualVocation:trim()
 			talkPrivate(player:getName(), 'Você é um ' .. actualVocation .. ', seu combo já foi automaticamente definido.')
 		end
 	end
