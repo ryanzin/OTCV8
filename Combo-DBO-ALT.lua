@@ -13,14 +13,14 @@ isExhausted = function(magia)
 	
 	if type(os) == 'table' then
 		if savedTime <= os.time() then
-			return false
+			return true
 		end
-	elseif savedTime <= now then
-		return false
+	elseif savedTime > now and now - 5000 <= savedTime then
+		return true
 	end
 
 	storage.exhaustCombo[magia] = nil
-	return true
+	return false
 end
 
 setExhaust = function(magia, total)
