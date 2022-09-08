@@ -1,7 +1,7 @@
 magOrder = {
-	{'Final Impact', 4, 700},
-	{'Impact', 3, 500},
-	{'Blast', 1, 200}
+	{'Final Impact', 4, 700, 135},
+	{'Impact', 3, 500, 130},
+	{'Blast', 1, 200, 0}
 }
 
 isExhausted = function(magia)
@@ -9,10 +9,9 @@ isExhausted = function(magia)
 	if type(savedTime) ~= 'number' then
 		return false
 	end
-	
-	
 	if type(os) == 'table' then
-		if savedTime <= os.time() then
+		local time = os.time()
+		if savedTime <= time and time + 10 > savedTime then
 			return true
 		end
 	elseif savedTime > now and now - 5000 <= savedTime then
@@ -40,10 +39,11 @@ end
 
 macro(100, "Combo", function()
 	local playerLevel = player:getLevel()
+	local magicLevel = player:getMagicLevel()
 	if actualVocation then
 		if g_game.isAttacking() then
 			for _, magConfig in ipairs(magOrder) do
-				if playerLevel > magConfig[3] then
+				if playerLevel > magConfig[3] and magicLevel > magConfig[4] then
 					local formattedSpell = formattedSpell(magConfig[1])
 					if not isExhausted(formattedSpell) then
 						return say(formattedSpell)
@@ -81,6 +81,9 @@ onTextMessage(function(mode, text)
 		local regexMatch = regexMatch(text, regexLook)
 		if #regexMatch > 0 then
 			actualVocation = regexMatch[1][2]
+			if not actualVocation:lower():find('super') then
+				table.remove(magOrder, 1)
+			end
 			for _, value in ipairs(removeFromLook) do
 				actualVocation = actualVocation:gsub(value, '')
 			end
