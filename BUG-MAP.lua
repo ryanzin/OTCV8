@@ -15,7 +15,7 @@ bugMap.directions = {
     ["Q"] = {-3, 3}
 }
 
-bugMap.macro =  macro(
+bugMap.macro = macro(
     1,
     "Bug Map",
     function()
