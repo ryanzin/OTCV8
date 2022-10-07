@@ -13,8 +13,9 @@ keepTarget.macro =
         end
         local target = g_game.getAttackingCreature()
         if target then
-            if keepTarget.storageId ~= target:getId() then
-                keepTarget.storageId = target:getId()
+            local targetId = target:getId()
+            if keepTarget.storageId ~= targetId then
+                keepTarget.storageId = targetId
             end
             return
         else
