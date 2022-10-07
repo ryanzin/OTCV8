@@ -7,7 +7,7 @@ keepTarget.macro =
     1,
     "Attack target",
     function()
-        if modules.corelib.g_keyboard.isKeyPressed(keepTarget.keepTarget) then
+        if modules.corelib.g_keyboard.isKeyPressed(keepTarget.keyCancel) then
             keepTarget.storageId = nil
             return g_game.cancelAttack()
         end
