@@ -11,9 +11,9 @@ macro(
     "Anti-Red",
     function()
         local pos = pos()
-        MonstersCount = 0
+        local monstersCount = 0
         for _, spec in ipairs(getSpectators(true)) do
-            if MonstersCount > 1 or timeArea > now then
+            if monstersCount > 1 or timeArea > now then
                 break
             end
             local specPos = spec:getPosition()
@@ -26,11 +26,11 @@ macro(
                     timeArea = now + 30000
                     break
                 elseif checkPosz == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1 then
-                    MonstersCount = MonstersCount + 1
+                    monstersCount = monstersCount + 1
                 end
             end
         end
-        if MonstersCount > 1 and (not timeArea or timeArea < now) then
+        if monstersCount > 1 and (not timeArea or timeArea < now) then
             return say("area")
         end
         if not g_game.isAttacking() then
