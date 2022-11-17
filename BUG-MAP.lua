@@ -47,7 +47,7 @@ bugMap.macro = macro(
     1,
     "Bug Map",
     function()
-        if modules.game_console:isChatEnabled() then
+        if not modules.game_console:isChatEnabled() then
             local pos = pos()
             for key, dir in pairs(bugMap.directions) do
                 if bugMap.isKeyPressed(key) then
