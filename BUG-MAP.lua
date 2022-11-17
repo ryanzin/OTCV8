@@ -38,7 +38,7 @@ bugMap.directions = {
         3
     },
     ["Q"] = {
-        -3
+        -3,
         3
     }
 }
