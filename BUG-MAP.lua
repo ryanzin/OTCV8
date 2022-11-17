@@ -21,10 +21,12 @@ bugMap.macro = macro(
     function()
         local pos = pos()
         for key, dir in pairs(bugMap.directions) do
-            if dir[1] == 0 or dir[2] == 0 or bugMap.useDiagonals then
-                local tile = g_map.getTile({x = pos.x + dir[1], y = pos.y + dir[2], z = pos.z})
-                if tile then
-                    return g_game.use(tile:getTopUseThing())
+            if bugMap.isKeyPressed(key) then
+                if dir[1] == 0 or dir[2] == 0 or bugMap.useDiagonals then
+                    local tile = g_map.getTile({x = pos.x + dir[1], y = pos.y + dir[2], z = pos.z})
+                    if tile then
+                        return g_game.use(tile:getTopUseThing())
+                    end
                 end
             end
         end
