@@ -1,3 +1,7 @@
+local mainTab = tabs:getTab('Tools') and 'Tools' or 'Main'
+setDefaultTab(mainTab)
+
+
 local bugMap = {}
 
 bugMap.useDiagonals = true
