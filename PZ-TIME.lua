@@ -83,7 +83,7 @@ end
 
 for name, _ in pairs(spellsWidgets) do
     storage.widgetPositions[name] = storage.widgetPositions[name] or {}
-  	spellsWidgets[name]:setPosition(
+	spellsWidgets[name]:setPosition(
 		{
 			x = storage.widgetPositions[name].x or 50,
 			y = storage.widgetPositions[name].y or 50
@@ -115,10 +115,15 @@ macro(1, function()
 				storage.battleTracking[3][specName] = nil
 			end
 		end
+		local widgetTime = spellsWidgets['pkTime']
 		if storage.battleTracking[1] < time then
-			spellsWidgets['pkTime']:hide()
+			return not widgetTime:isHidden() and widgetTime:hide()
 		else
-			spellsWidgets['pkTime']:setText('PK Time is: ' ..
+			if widgetTime:isHidden() then
+				widgetTime:show()
+				widgetTime:raise()
+			end
+			widgetTime:setText('PK Time is: ' ..
 				doFormatMin(
 					math.abs(storage.battleTracking[1] - time)
 				)
