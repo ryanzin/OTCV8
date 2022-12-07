@@ -95,7 +95,6 @@ end
 
 
 macro(1, function()
-
 	local time = os and os.time() or now
 	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
 		for specName, value in pairs(storage.battleTracking[3]) do
@@ -128,7 +127,7 @@ macro(1, function()
 					math.abs(storage.battleTracking[1] - time)
 				)
 			)
-			spellsWidgets['pkTime']:setColor("red")
+			return widgetTime:setColor("red")
 		end
 		battleLastVerified = os and time + 1 or time + 1000
 	end
