@@ -19,7 +19,7 @@ onTextMessage(function(mode, text)
         return
     end
     if not text:find("due to your") and not text:find("you deal") then return end
-    for _, spec in ipairs(getSpectators()) do
+    for _, spec in pairs(getSpectators()) do
         local specName = spec:getName():lower()
         if spec:isPlayer() and text:find(specName) then
             storage.battleTracking[3][specName] = {
