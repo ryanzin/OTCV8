@@ -12,28 +12,24 @@ end
     
     
 
-onTextMessage(
-    function(mode, text)
-        text = text:lower()
-        if text:find("o assassinato de") or text:find("was not justified") then
-            battleTracking[1] = now + pzTime * 60 * 1000
+onTextMessage(function(mode, text)
+    text = text:lower()
+    if text:find("o assassinato de") or text:find("was not justified") then
+        battleTracking[1] = now + pzTime * 60 * 1000
+        return
+    end
+    if not text:find("due to your") and not text:find("you deal") then return end
+    for _, spec in ipairs(getSpectators()) do
+        local specName = spec:getName():lower()
+        if spec:isPlayer() and text:find(specName) then
+            storage.battleTracking[3][specName] = {
+                now + 60000,
+                spec:getId()
+            }
             return
-        end
-        if not text:find("due to your") and not text:find("you deal") then
-            return
-        end
-        for _, spec in ipairs(getSpectators()) do
-            local specName = spec:getName():lower()
-            if spec:isPlayer() and text:find(specName) then
-                storage.battleTracking[3][specName] = {
-                    now + 60000,
-                    spec:getId()
-                }
-                return
-            end
         end
     end
-)
+end)
 
 local function doFormatMin(v)
     if v < 1000 then
@@ -95,37 +91,35 @@ for name, _ in pairs(spellsWidgets) do
     attachSpellWidgetCallbacks(name)
 end
 
-macro(
-    100,
-    function()
-        for specName, value in pairs(battleTracking[3]) do
-            if value[1] >= now and value[1] - 60000 <= now then
-                local playerSearch = getCreatureById(specName, true)
-                if playerSearch then
-                    if playerSearch:getId() == value[2] then
-                        if playerSearch:getHealthPercent() == 0 then
-                            battleTracking[1] = now + (pzTime * 60 * 1000)
-                            goto remove
-                        end
-                    else
+macro(100, function()
+    for specName, value in pairs(battleTracking[3]) do
+        if value[1] >= now and value[1] - 60000 <= now then
+            local playerSearch = getCreatureById(specName, true)
+            if playerSearch then
+                if playerSearch:getId() == value[2] then
+                    if playerSearch:getHealthPercent() == 0 then
+                        battleTracking[1] = now + (pzTime * 60 * 1000)
                         goto remove
                     end
+                else
+                    goto remove
                 end
-            else
-                ::remove::
-                battleTrcking[3][specName] = nil
-            end 
-        end
-
-        if battleTracking[1] < now then
-            pkTime:hide()
+            end
         else
-            pkTime:setText(
-                doFormatMin(
-                    math.abs(now - battleTracking[1])
-                )
-            )
-            pkTime:setColor("#ff6666")
-        end
+            ::remove::
+            battleTrcking[3][specName] = nil
+        end 
     end
+
+    if battleTracking[1] < now then
+        pkTime:hide()
+    else
+        pkTime:setText(
+            doFormatMin(
+                math.abs(now - battleTracking[1])
+            )
+        )
+        pkTime:setColor("red")
+    end
+end
 )
