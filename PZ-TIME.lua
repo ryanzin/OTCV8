@@ -1,5 +1,7 @@
 local pzTime = 15 -- tempo em minutos
 
+local battleTracking = storage.battleTracking
+
 if type(battleTracking) ~= 'table' or #battleTracking[2] ~= player:getId() or storage.battleTracking[1] - now > pzTime * 60 * 1000 then
     battleTracking = {
         0,
@@ -7,8 +9,6 @@ if type(battleTracking) ~= 'table' or #battleTracking[2] ~= player:getId() or st
         {}
     }
 end
-
-local battleTracking = storage.battleTracking
     
     
 
