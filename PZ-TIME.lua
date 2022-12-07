@@ -50,7 +50,7 @@ local spellsWidgets = spellsWidgets or {}
 
 storage.widgetPositions = storage.widgetPositions or {}
 
-local spellsWidgets['pkTime'] = setupUI([[
+spellsWidgets['pkTime'] = setupUI([[
 UIWidget
   background-color: black
   opacity: 0.8
