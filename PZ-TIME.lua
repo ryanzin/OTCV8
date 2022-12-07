@@ -98,18 +98,23 @@ end
 macro(
     100,
     function()
-        for specName, config in pairs(battleTracking[3]) do
-            if value[1] >= now and value[1] - 60000 <= now and findHim:getId() ==  then
-                local findHim = getPlayerByName(specName, true)
-                if findHim:getHealthPercent() == 0 then
-                    if  == value[2] then
-                        battleTracking[1] = now + (pzTime * 60 * 1000)
+        for specName, value in pairs(battleTracking[3]) do
+            if value[1] >= now and value[1] - 60000 <= now then
+                local playerSearch = getCreatureById(specName, true)
+                if playerSearch then
+                    if playerSearch:getId() == value[2] then
+                        if playerSearch:getHealthPercent() == 0 then
+                            battleTracking[1] = now + (pzTime * 60 * 1000)
+                            goto remove
+                        end
+                    else
+                        goto remove
                     end
-                    battleTracking[3][specName] = nil
                 end
             else
-                battleTracking[3][specName] = nil
-            end
+                ::remove::
+                battleTrcking[3][specName] = nil
+            end 
         end
 
         if battleTracking[1] < now then
