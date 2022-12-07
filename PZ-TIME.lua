@@ -1,9 +1,8 @@
 local pzTime = 15 -- tempo em minutos
 
-battleTracking = storage.battleTracking
 
-if type(battleTracking) ~= 'table' or #battleTracking[2] ~= player:getId() or storage.battleTracking[1] - now > pzTime * 60 * 1000 then
-    battleTracking = {
+if type(storage.battleTracking) ~= 'table' or #storage.battleTracking[2] ~= player:getId() or storage.battleTracking[1] - now > pzTime * 60 * 1000 then
+    storage.battleTracking = {
         0,
         player:getId(),
         {}
@@ -15,7 +14,7 @@ end
 onTextMessage(function(mode, text)
     text = text:lower()
     if text:find("o assassinato de") or text:find("was not justified") then
-        battleTracking[1] = now + pzTime * 60 * 1000
+        storage.battleTracking[1] = now + pzTime * 60 * 1000
         return
     end
     if not text:find("due to your") and not text:find("you deal") then return end
@@ -93,14 +92,14 @@ end
 
 macro(100, function()
 
-    for specName, value in pairs(battleTracking[3]) do
+    for specName, value in pairs(storage.battleTracking[3]) do
         if value[1] >= now and value[1] - 60000 <= now then
             local playerSearch = getCreatureById(specName, true)
             if playerSearch then
                 if playerSearch:getId() == value[2] then
                     if playerSearch:getHealthPercent() == 0 then
-                        battleTracking[1] = now + (pzTime * 60 * 1000)
-                        battleTrcking[3][specName] = nil
+                        storage.battleTracking[1] = now + (pzTime * 60 * 1000)
+                        storage.battleTracking[3][specName] = nil
                     end
                 else
                     battleTrcking[3][specName] = nil
@@ -108,15 +107,15 @@ macro(100, function()
             end
         else
             battleTrcking[3][specName] = nil
-		end
+	end
     end
 
-    if battleTracking[1] < now then
+    if storage.battleTracking[1] < now then
         spellsWidgets['pkTime']:hide()
     else
         spellsWidgets['pkTime']:setText(
             doFormatMin(
-                math.abs(now - battleTracking[1])
+                math.abs(now - storage.battleTracking[1])
             )
         )
         spellsWidgets['pkTime']:setColor("red")
