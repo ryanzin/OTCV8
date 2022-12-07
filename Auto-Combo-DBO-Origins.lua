@@ -356,10 +356,8 @@ end
 comboConfig.rearrangedTable = {}
 
 for vocation, spells in pairs(comboConfig.vocations) do
-	comboConfig.rearrangedTable[vocation:lower()] = spells
+	comboConfig.vocations[vocation:lower():trim()] = spells
 end
-
-comboConfig.vocations = nil
 
 comboConfig.setupMacro = macro(1, function()
 	return comboConfig.actualVocation and comboConfig.setupMacro.setOff() or g_game.look(player)
@@ -371,7 +369,7 @@ end
 
 comboConfig.macroCombo = macro(1, 'Combo', function()
 	for i = 1, 5 do
-		if modules.corelib.g_keyboard.isKeyPressed('F' .. tostring(i)) then
+		if modules.corelib.g_keyboard.isKeyPressed('F' .. i) then
 			return
 		end
 	end
@@ -417,7 +415,7 @@ onTalk(function(name, level, mode, text)
 	end
 end)
 
-onTextMessage(function(mode, text)
+vocationVerify = onTextMessage(function(mode, text)
 	text = text:lower()
 	if text:find('you see yourself') then
 		local regex = [[you see yourself. you are ([\w ]*).]]
@@ -431,9 +429,10 @@ onTextMessage(function(mode, text)
 				end
 				actualVoc = actualVoc and actualVoc .. ' ' .. texto or texto
 			end
-			comboConfig.actualVocation = actualVoc
-			comboConfig.actualCombo = comboConfig.rearrangedTable[actualVoc:trim()]
-			talkPrivate(player:getName(), 'Combo Definido, ' .. ucwords(actualVoc) .. '.')
+			comboConfig.actualVocation = actualVoc:trim()
+			comboConfig.actualCombo = comboConfig.vocations[comboConfig.actualVocation]
+			talkPrivate(player:getName(), 'Combo Definido, ' .. ucwords(comboConfig.actualVocation) .. '.')
+			vocationVerify.remove()
 		end
 	end
 end)
