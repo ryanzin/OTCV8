@@ -130,6 +130,6 @@ macro(1, function()
 			)
 			spellsWidgets['pkTime']:setColor("red")
 		end
-		battleLastVerified = time + 1000
+		battleLastVerified = os and time + 1 or time + 1000
 	end
 end)
