@@ -14,7 +14,7 @@ end
 onTextMessage(function(mode, text)
     text = text:lower()
     if text:find("o assassinato de") or text:find("was not justified") then
-        storage.battleTracking[1] = now + pzTime * 60 * 1000
+        storage.battleTracking[1] = now + (pzTime * 60 * 1000)
         return
     end
     if not text:find("due to your") and not text:find("you deal") then return end
