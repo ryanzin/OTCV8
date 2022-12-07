@@ -85,10 +85,8 @@ for name, _ in pairs(spellsWidgets) do
     storage.widgetPositions[name] = storage.widgetPositions[name] or {}
 	spellsWidgets[name]:setPosition(
 		{
-			storage.widgetPositions[name] or {
-				x = 50,
-				y = 50
-			}
+			x = storage.widgetPositions[name].x or 50,
+			y = storage.widgetPositions[name].y or 50
 		}
 	)
     attachSpellWidgetCallbacks(name)
@@ -96,34 +94,37 @@ end
 
 
 
-macro(100, function()
+macro(1, function()
 
 	local time = os and os.time() or now
-    for specName, value in pairs(storage.battleTracking[3]) do
-        if (os and value[1] >= time) or (not os and value[1] >= time and value[1] - 60000 <= time) then
-            local playerSearch = getCreatureById(specName, true)
-            if playerSearch then
-                if playerSearch:getId() == value[2] then
-                    if playerSearch:getHealthPercent() == 0 then
-                        storage.battleTracking[1] = not os and time + (pzTime * 60 * 1000) or time + (pzTime * 60)
-                        storage.battleTracking[3][specName] = nil
-                    end
-                else
-                    storage.battleTracking[3][specName] = nil
-                end
-            end
-        else
-            storage.battleTracking[3][specName] = nil
+	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
+		for specName, value in pairs(storage.battleTracking[3]) do
+			if (os and value[1] >= time) or (not os and value[1] >= time and value[1] - 60000 <= time) then
+				local playerSearch = getCreatureById(specName, true)
+				if playerSearch then
+					if playerSearch:getId() == value[2] then
+						if playerSearch:getHealthPercent() == 0 then
+							storage.battleTracking[1] = not os and time + (pzTime * 60 * 1000) or time + (pzTime * 60)
+							storage.battleTracking[3][specName] = nil
+						end
+					else
+						storage.battleTracking[3][specName] = nil
+					end
+				end
+			else
+				storage.battleTracking[3][specName] = nil
+			end
 		end
+		if storage.battleTracking[1] < time then
+			spellsWidgets['pkTime']:hide()
+		else
+			spellsWidgets['pkTime']:setText('PK Time is: ' ..
+				doFormatMin(
+					math.abs(storage.battleTracking[1] - time)
+				)
+			)
+			spellsWidgets['pkTime']:setColor("red")
+		end
+		battleLastVerified = time + 1000
 	end
-    if storage.battleTracking[1] < time then
-        spellsWidgets['pkTime']:hide()
-    else
-        spellsWidgets['pkTime']:setText('PK Time is: ' ..
-            doFormatMin(
-                math.abs(storage.battleTracking[1] - time)
-            )
-        )
-        spellsWidgets['pkTime']:setColor("red")
-    end
 end)
