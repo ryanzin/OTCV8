@@ -353,10 +353,19 @@ comboConfig.toOrder = function(t)
 	return {t['canudo'], t['fast'], t['umTiro'], t['impact']}
 end
 
-comboConfig.rearrangedTable = {}
+ucwords = function(text)
+	text = text:trim():split(' ')
+	local texto
+	for index, value in ipairs(text) do
+		value = value:sub(1, 1):upper() .. value:sub(2)
+		texto = texto and texto .. ' ' .. value or value
+	end
+	
+	return texto
+end
 
 for vocation, spells in pairs(comboConfig.vocations) do
-	comboConfig.vocations[vocation:lower():trim()] = spells
+	comboConfig.vocations[ucwords(vocation)] = spells
 end
 
 comboConfig.setupMacro = macro(1, function()
@@ -383,25 +392,13 @@ comboConfig.macroCombo = macro(1, 'Combo', function()
 		end
 	end
 end, tab)
-	
-
-ucwords = function(text)
-	text = text:trim():split(' ')
-	local texto
-	for index, value in ipairs(text) do
-		value = value:sub(1, 1):upper() .. value:sub(2)
-		texto = texto and texto .. ' ' .. value or value
-	end
-	
-	return texto
-end
 
 onTalk(function(name, level, mode, text)
+	if not comboConfig.actualVocation then return end
+		
 	if name ~= player:getName() then return end
 	
 	if mode ~= 44 then return end
-	
-	if not comboConfig.actualVocation then return end
 	
 	text = text:lower()
 	
@@ -429,9 +426,9 @@ vocationVerify = onTextMessage(function(mode, text)
 				end
 				actualVoc = actualVoc and actualVoc .. ' ' .. texto or texto
 			end
-			comboConfig.actualVocation = actualVoc:trim()
+			comboConfig.actualVocation = ucwords(actualVoc)
 			comboConfig.actualCombo = comboConfig.vocations[comboConfig.actualVocation]
-			talkPrivate(player:getName(), 'Combo Definido, ' .. ucwords(comboConfig.actualVocation) .. '.')
+			talkPrivate(player:getName(), 'Combo Definido, ' .. comboConfig.actualVocation .. '.')
 			vocationVerify.remove()
 		end
 	end
