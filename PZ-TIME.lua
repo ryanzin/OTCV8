@@ -83,7 +83,7 @@ end
 
 for name, _ in pairs(spellsWidgets) do
     storage.widgetPositions[name] = storage.widgetPositions[name] or {}
-	spellsWidgets[name]:setPosition(
+  	spellsWidgets[name]:setPosition(
 		{
 			x = storage.widgetPositions[name].x or 50,
 			y = storage.widgetPositions[name].y or 50
