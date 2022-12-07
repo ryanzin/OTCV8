@@ -1,23 +1,34 @@
-local TempoPK = 15 -- tempo em minutos
+local pzTime = 15 -- tempo em minutos
 
-storage.tablePZ =
-    type(storage.tablePZ) == "table" and storage.tablePZ[1] - now <= 60000 and storage.tablePZ[2] == player:getId() and
-    storage.tablePZ or
-    {0, player:getId(), {}}
+local battleTracking = storage.battleTracking
+
+if type(battleTracking) ~= 'table' or #battleTracking[2] ~= player:getId() or storage.battleTracking[1] - now > pzTime * 60 * 1000 then
+    battleTracking = {
+        0,
+        player:getId(),
+        {}
+    }
+end
+    
+    
 
 onTextMessage(
     function(mode, text)
         text = text:lower()
         if text:find("o assassinato de") or text:find("was not justified") then
-            storage.TimeRemain = now + (TempoPK * 60 * 1000)
+            battleTracking[1] = now + pzTime * 60 * 1000
             return
         end
-        if not text:find("due to your") and not text:lower():find("you deal") then
+        if not text:find("due to your") and not text:find("you deal") then
             return
         end
-        for _, spec in ipairs(getSpectators(posz())) do
-            if spec:isPlayer() and text:find(spec:getName()) then
-                storage.tablePZ[3][spec:getName()] = {now + 60000, spec:getId()}
+        for _, spec in ipairs(getSpectators()) do
+            local specName = spec:getName():lower()
+            if spec:isPlayer() and text:find(specName) then
+                storage.battleTracking[3][specName] = {
+                    now + 60000,
+                    spec:getId()
+                }
                 return
             end
         end
@@ -38,55 +49,78 @@ local function doFormatMin(v)
     return mins .. ":" .. seconds
 end
 
-local widget =
-    setupUI(
-    [[
-Panel
-  size: 14 14
-  height:514
-  anchors.bottom: parent.bottom
-  anchors.left: parent.left
-  opacity: 1
-  margin-left: 200
-]],
-    g_ui.getRootWidget()
-)
 
-local timepk =
-    g_ui.loadUIFromString(
-    [[
-Label
-  color: white
-  background-color: #00000090
-  opacity: 0.87
-  text-horizontal-auto-resize: true 
-]],
-    widget
-)
+local spellsWidgets = spellsWidgets or {}
+
+storage.widgetPositions = storage.widgetPositions or {}
+
+local spellsWidgets['pkTime'] = setupUI([[
+UIWidget
+  background-color: black
+  opacity: 0.8
+  padding: 0 5
+  focusable: true
+  phantom: false
+  draggable: true
+]], g_ui.getRootWidget())
+
+
+local function attachSpellWidgetCallbacks(key) -- credits to VictorNeox#4112, minor changes were made.
+    spellsWidgets[key].onDragEnter = function(widget, mousePos)
+        if not modules.corelib.g_keyboard.isCtrlPressed() then
+            return false
+        end
+        widget:breakAnchors()
+        widget.movingReference = { x = mousePos.x - widget:getX(), y = mousePos.y - widget:getY() }
+        return true
+    end
+  
+    spellsWidgets[key].onDragMove = function(widget, mousePos, moved)
+        local parentRect = widget:getParent():getRect()
+        local x = math.min(math.max(parentRect.x, mousePos.x - widget.movingReference.x), parentRect.x + parentRect.width - widget:getWidth())
+        local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight())        
+        widget:move(x, y)
+        return true
+    end
+  
+    spellsWidgets[key].onDragLeave = function(widget, pos)
+        storage.widgetPositions[key].x = widget:getX()
+        storage.widgetPositions[key].y = widget:getY()
+        return true
+    end
+end
+
+for name, _ in pairs(spellsWidgets) do
+    storage.widgetPositions[name] = storage.widgetPositions[name] or {}
+    attachSpellWidgetCallbacks(name)
+end
 
 macro(
     100,
     function()
-        for specName, value in pairs(storage.tablePZ[3]) do
-            if value[1] >= now and value[1] - 60000 <= now then
+        for specName, config in pairs(battleTracking[3]) do
+            if value[1] >= now and value[1] - 60000 <= now and findHim:getId() ==  then
                 local findHim = getPlayerByName(specName, true)
                 if findHim:getHealthPercent() == 0 then
-                    if findHim:getId() == value[2] then
-                        storage.tablePZ[1] = now + (TempoPK * 60 * 1000)
+                    if  == value[2] then
+                        battleTracking[1] = now + (pzTime * 60 * 1000)
                     end
-                    storage.tablePZ[3][specName] = nil
+                    battleTracking[3][specName] = nil
                 end
             else
-                storage.tablePZ[3][specName] = nil
+                battleTracking[3][specName] = nil
             end
         end
 
-        if storage.tablePZ[1] < now then
-            timepk:setText("~ Pz Locked: 00:00")
-            timepk:setColor("#EBDAA2")
+        if battleTracking[1] < now then
+            pkTime:hide()
         else
-            timepk:setText(doFormatMin(math.abs(now - storage.tablePZ[1])))
-            timepk:setColor("#ff6666")
+            pkTime:setText(
+                doFormatMin(
+                    math.abs(now - battleTracking[1])
+                )
+            )
+            pkTime:setColor("#ff6666")
         end
     end
 )
