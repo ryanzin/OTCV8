@@ -87,6 +87,14 @@ end
 
 for name, _ in pairs(spellsWidgets) do
     storage.widgetPositions[name] = storage.widgetPositions[name] or {}
+	spellsWidgets[name]:setPosition(
+		{
+			storage.widgetPositions[name] or {
+				x = 0,
+				y = 0
+			}
+		}
+	)
     attachSpellWidgetCallbacks(name)
 end
 
@@ -107,18 +115,16 @@ macro(100, function()
             end
         else
             battleTrcking[3][specName] = nil
+		end
 	end
-    end
-
     if storage.battleTracking[1] < now then
         spellsWidgets['pkTime']:hide()
     else
-        spellsWidgets['pkTime']:setText(
+        spellsWidgets['pkTime']:setText('PK Time is: ' ..
             doFormatMin(
                 math.abs(now - storage.battleTracking[1])
             )
         )
         spellsWidgets['pkTime']:setColor("red")
     end
-end
-)
+end)
