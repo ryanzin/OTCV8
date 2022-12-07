@@ -2,22 +2,18 @@ local pzTime = 15 -- tempo em minutos
 
 local os = os or modules.os
 
-
-
 if type(storage.battleTracking) ~= 'table' or storage.battleTracking[2] ~= player:getId() or (not os and storage.battleTracking[1] - now > pzTime * 60 * 1000) then
     storage.battleTracking = {
         0,
         player:getId(),
         {}
     }
-end
-    
-    
+end 
 
 onTextMessage(function(mode, text)
     text = text:lower()
     if text:find("o assassinato de") or text:find("was not justified") then
-        storage.battleTracking[1] = not useOs and now + (pzTime * 60 * 1000) or os.time() + (pzTime * 60)
+        storage.battleTracking[1] = not os and now + (pzTime * 60 * 1000) or os.time() + (pzTime * 60)
         return
     end
     if not text:find("due to your") and not text:find("you deal") then return end
@@ -90,8 +86,8 @@ for name, _ in pairs(spellsWidgets) do
 	spellsWidgets[name]:setPosition(
 		{
 			storage.widgetPositions[name] or {
-				x = 0,
-				y = 0
+				x = 50,
+				y = 50
 			}
 		}
 	)
