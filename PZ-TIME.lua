@@ -92,6 +92,7 @@ for name, _ in pairs(spellsWidgets) do
 end
 
 macro(100, function()
+
     for specName, value in pairs(battleTracking[3]) do
         if value[1] >= now and value[1] - 60000 <= now then
             local playerSearch = getCreatureById(specName, true)
@@ -99,27 +100,26 @@ macro(100, function()
                 if playerSearch:getId() == value[2] then
                     if playerSearch:getHealthPercent() == 0 then
                         battleTracking[1] = now + (pzTime * 60 * 1000)
-                        goto remove
+                        battleTrcking[3][specName] = nil
                     end
                 else
-                    goto remove
+                    battleTrcking[3][specName] = nil
                 end
             end
         else
-            ::remove::
             battleTrcking[3][specName] = nil
-        end 
+		end
     end
 
     if battleTracking[1] < now then
-        pkTime:hide()
+        spellsWidgets['pkTime']:hide()
     else
-        pkTime:setText(
+        spellsWidgets['pkTime']:setText(
             doFormatMin(
                 math.abs(now - battleTracking[1])
             )
         )
-        pkTime:setColor("red")
+        spellsWidgets['pkTime']:setColor("red")
     end
 end
 )
