@@ -1,3 +1,5 @@
+setDefaultTab('Tools')
+
 local keepTarget = {}
 
 keepTarget.keyCancel = "Escape"
