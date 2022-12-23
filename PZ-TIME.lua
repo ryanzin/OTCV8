@@ -30,7 +30,7 @@ onTextMessage(function(mode, text)
 end)
 
 local function doFormatMin(v)
-	v = v > 1000 and v / 1000 or v
+    v = v > 1000 and v / 1000 or v
     local mins = 00
     local seconds = 00
     if v >= 60 then
@@ -116,7 +116,7 @@ macro(1, function()
 		end
 		local widgetTime = spellsWidgets['pkTime']
 		if storage.battleTracking[1] < time then
-			widgetTime:setText('Sem PZ')
+			widgetTime:setText('PK Time is: 00:00')
 			widgetTime:setColor('green')
 		else
 			widgetTime:setText('PK Time is: ' ..
