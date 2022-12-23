@@ -41,7 +41,7 @@ local function doFormatMin(v)
 end
 
 
-local spellsWidgets = spellsWidgets or {}
+spellsWidgets = spellsWidgets or {}
 
 storage.widgetPositions = storage.widgetPositions or {}
 
