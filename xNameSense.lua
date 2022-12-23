@@ -1,3 +1,5 @@
+setDefaultTab('Tools')
+
 macro(1, 'xSense', 'F12', function()
     if storage.Sense then
         locatePlayer = getPlayerByName(storage.Sense)
