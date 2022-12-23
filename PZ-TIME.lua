@@ -126,6 +126,6 @@ macro(1, function()
 			)
 			widgetTime:setColor("red")
 		end
-		battleLastVerified = os and time + 1 or time + 1000
+		battleLastVerified = os and time or time + 1000
 	end
 end)
