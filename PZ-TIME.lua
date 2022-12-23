@@ -12,7 +12,7 @@ end
 
 onTextMessage(function(mode, text)
     text = text:lower()
-    if text:find("o assassinato de") or text:find("was not justified") or text:find('o assassinato do')then
+    if text:find("o assassinato de") or text:find("was not justified") or text:find("o assassinato do")then
         storage.battleTracking[1] = not os and now + (pzTime * 60 * 1000) or os.time() + (pzTime * 60)
         return
     end
