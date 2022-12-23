@@ -116,18 +116,15 @@ macro(1, function()
 		end
 		local widgetTime = spellsWidgets['pkTime']
 		if storage.battleTracking[1] < time then
-			return not widgetTime:isHidden() and widgetTime:hide()
+			widgetTime:setText('Sem PZ')
+			widgetTime:setColor('green')
 		else
-			if widgetTime:isHidden() then
-				widgetTime:show()
-				widgetTime:raise()
-			end
 			widgetTime:setText('PK Time is: ' ..
 				doFormatMin(
 					math.abs(storage.battleTracking[1] - time)
 				)
 			)
-			return widgetTime:setColor("red")
+			widgetTime:setColor("red")
 		end
 		battleLastVerified = os and time + 1 or time + 1000
 	end
