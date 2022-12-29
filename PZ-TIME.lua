@@ -30,7 +30,7 @@ onTextMessage(function(mode, text)
                 not os and now + 60000 or os.time() + 60,
                 spec:getId()
             }
-            return
+            break
         end
     end
 end)
