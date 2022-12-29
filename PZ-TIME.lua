@@ -1,4 +1,10 @@
-local pzTime = 15 -- tempo em minutos
+local timeTrack = {
+	['ntoultimate'] = 15,
+	['ntolost'] = 5
+}
+
+local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
+	
 
 local os = os or modules.os
 
