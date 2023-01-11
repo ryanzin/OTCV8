@@ -35,6 +35,10 @@ onTextMessage(function(mode, text)
     end
 end)
 
+math.mod = math.mod or function(base, modulus)
+	return base % modulus
+end
+
 local function doFormatMin(v)
     v = v > 1000 and v / 1000 or v
     local mins = 00
