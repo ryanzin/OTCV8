@@ -27,8 +27,8 @@ onTextMessage(function(mode, text)
         local specName = spec:getName():lower()
         if spec:isPlayer() and text:find(specName) then
             storage.battleTracking[3][specName] = {
-                not os and now + 60000 or os.time() + 60,
-                spec:getId()
+                timeBattle = not os and now + 60000 or os.time() + 60,
+                playerId = spec:getId()
             }
             break
         end
@@ -108,10 +108,10 @@ macro(1, function()
 	local time = os and os.time() or now
 	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
 		for specName, value in pairs(storage.battleTracking[3]) do
-			if (os and value[1] >= time) or (not os and value[1] >= time and value[1] - 60000 <= time) then
+			if (os and value.timeBattle >= time) or (not os and value.battleTime >= time and value.battleTime - 60000 <= time) then
 				local playerSearch = getCreatureById(specName, true)
 				if playerSearch then
-					if playerSearch:getId() == value[2] then
+					if playerSearch:getId() == value.playerId then
 						if playerSearch:getHealthPercent() == 0 then
 							storage.battleTracking[1] = not os and time + (pzTime * 60 * 1000) or time + (pzTime * 60)
 							storage.battleTracking[3][specName] = nil
