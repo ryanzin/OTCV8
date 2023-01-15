@@ -51,11 +51,11 @@ local function doFormatMin(v)
 end
 
 
-spellsWidgets = spellsWidgets or {}
 
-storage.widgetPositions = storage.widgetPositions or {}
 
-spellsWidgets['pkTime'] = setupUI([[
+storage.widgetPos = storage.widgetPos or {}
+
+local pkTimeWidget = setupUI([[
 UIWidget
   background-color: black
   opacity: 0.8
@@ -66,42 +66,38 @@ UIWidget
 ]], g_ui.getRootWidget())
 
 
-local function attachSpellWidgetCallbacks(key) -- credits to VictorNeox#4112, minor changes were made.
-    spellsWidgets[key].onDragEnter = function(widget, mousePos)
-        if not modules.corelib.g_keyboard.isCtrlPressed() then
-            return false
-        end
-        widget:breakAnchors()
-        widget.movingReference = { x = mousePos.x - widget:getX(), y = mousePos.y - widget:getY() }
-        return true
-    end
-  
-    spellsWidgets[key].onDragMove = function(widget, mousePos, moved)
-        local parentRect = widget:getParent():getRect()
-        local x = math.min(math.max(parentRect.x, mousePos.x - widget.movingReference.x), parentRect.x + parentRect.width - widget:getWidth())
-        local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight())        
-        widget:move(x, y)
-        return true
-    end
-  
-    spellsWidgets[key].onDragLeave = function(widget, pos)
-        storage.widgetPositions[key].x = widget:getX()
-        storage.widgetPositions[key].y = widget:getY()
-        return true
-    end
+pkTimeWidget.onDragEnter = function(widget, mousePos)
+	if not modules.corelib.g_keyboard.isCtrlPressed() then
+		return false
+	end
+	widget:breakAnchors()
+	widget.movingReference = { x = mousePos.x - widget:getX(), y = mousePos.y - widget:getY() }
+	return true
 end
 
-for name, _ in pairs(spellsWidgets) do
-    storage.widgetPositions[name] = storage.widgetPositions[name] or {}
-	spellsWidgets[name]:setPosition(
-		{
-			x = storage.widgetPositions[name].x or 50,
-			y = storage.widgetPositions[name].y or 50
-		}
-	)
-    attachSpellWidgetCallbacks(name)
+pkTimeWidget.onDragMove = function(widget, mousePos, moved)
+	local parentRect = widget:getParent():getRect()
+	local x = math.min(math.max(parentRect.x, mousePos.x - widget.movingReference.x), parentRect.x + parentRect.width - widget:getWidth())
+	local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight())        
+	widget:move(x, y)
+	return true
 end
 
+pkTimeWidget.onDragLeave = function(widget, pos)
+	storage.widgetPos['pkTimeWidget'].x = widget:getX()
+	storage.widgetPos['pkTimeWidget'].y = widget:getY()
+	return true
+end
+
+
+local name = "pkTimeWidget"
+storage.widgetPositions[name] = storage.widgetPositions[name] or {}
+pkTimeWidget:setPosition(
+	{
+		x = storage.widgetPositions[name].x or 50,
+		y = storage.widgetPositions[name].y or 50
+	}
+)
 
 
 macro(1, function()
