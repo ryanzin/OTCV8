@@ -120,7 +120,7 @@ macro(1, function()
 				storage.battleTracking[3][specName] = nil
 			end
 		end
-		local widgetTime = spellsWidgets['pkTime']
+		local widgetTime = pkTimeWidget
 		if storage.battleTracking[1] < time then
 			widgetTime:setText('PK Time is: 00:00')
 			widgetTime:setColor('green')
