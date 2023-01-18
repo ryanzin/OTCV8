@@ -91,11 +91,11 @@ end
 
 
 local name = "pkTimeWidget"
-storage.widgetPositions[name] = storage.widgetPositions[name] or {}
+storage.widgetPos[name] = storage.widgetPos[name] or {}
 pkTimeWidget:setPosition(
 	{
-		x = storage.widgetPositions[name].x or 50,
-		y = storage.widgetPositions[name].y or 50
+		x = storage.widgetPos[name].x or 50,
+		y = storage.widgetPos[name].y or 50
 	}
 )
 
