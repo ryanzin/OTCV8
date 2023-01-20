@@ -89,15 +89,29 @@ pkTimeWidget.onDragLeave = function(widget, pos)
 	return true
 end
 
+if g_game.getWorldName() == 'Katon' then
+	function getCreatureByName(name)
+		if type(name) ~= 'string' then
+			name = name:getName()
+		end
+		name = name:lower()
+		for _, tile in pairs(g_map.getTiles(posz())) do
+			for _, thing in pairs(tile:getThings()) do
+				local thingName = thing:getName()
+				if thingName and #thingName > 0 then
+					thingName = thingName:lower()
+					if thingName == name then
+						return thing
+					end
+				end
+			end
+		end
+	end
+end
 
 local name = "pkTimeWidget"
 storage.widgetPos[name] = storage.widgetPos[name] or {}
-pkTimeWidget:setPosition(
-	{
-		x = storage.widgetPos[name].x or 50,
-		y = storage.widgetPos[name].y or 50
-	}
-)
+pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widgetPos[name].y or 50})
 
 
 macro(1, function()
@@ -105,7 +119,7 @@ macro(1, function()
 	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
 		for specName, value in pairs(storage.battleTracking[3]) do
 			if (os and value.timeBattle >= time) or (not os and value.battleTime >= time and value.battleTime - 60000 <= time) then
-				local playerSearch = getCreatureById(specName, true)
+				local playerSearch = getCreatureByName(specName, true)
 				if playerSearch then
 					if playerSearch:getId() == value.playerId then
 						if playerSearch:getHealthPercent() == 0 then
