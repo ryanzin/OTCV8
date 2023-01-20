@@ -139,11 +139,7 @@ macro(1, function()
 			widgetTime:setText('PK Time is: 00:00')
 			widgetTime:setColor('green')
 		else
-			widgetTime:setText('PK Time is: ' ..
-				doFormatMin(
-					math.abs(storage.battleTracking[1] - time)
-				)
-			)
+			widgetTime:setText('PK Time is: ' .. doFormatMin(math.abs(storage.battleTracking[1] - time)))
 			widgetTime:setColor("red")
 		end
 		battleLastVerified = os and time or time + 1000
