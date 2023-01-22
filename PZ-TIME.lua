@@ -89,26 +89,6 @@ pkTimeWidget.onDragLeave = function(widget, pos)
 	return true
 end
 
- then
-	function getPlayerByName(name)
-		if type(name) ~= 'string' then
-			name = name:getName()
-		end
-		name = name:lower()
-		for _, tile in pairs(g_map.getTiles(posz())) do
-			for _, thing in pairs(tile:getThings()) do
-				local thingName = thing:getName()
-				if thingName and #thingName > 0 and thing:isPlayer() then
-					thingName = thingName:lower()
-					if thingName == name then
-						return thing
-					end
-				end
-			end
-		end
-	end
-end
-
 local name = "pkTimeWidget"
 storage.widgetPos[name] = storage.widgetPos[name] or {}
 pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widgetPos[name].y or 50})
