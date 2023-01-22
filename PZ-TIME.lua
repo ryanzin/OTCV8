@@ -23,14 +23,19 @@ onTextMessage(function(mode, text)
         return
     end
     if not text:find("due to your") and not text:find("you deal") then return end
-    for _, spec in pairs(getSpectators()) do
-        local specName = spec:getName():lower()
-        if spec:isPlayer() and text:find(specName) then
-            storage.battleTracking[3][specName] = {
-                timeBattle = not os and now + 60000 or os.time() + 60,
-                playerId = spec:getId()
-            }
-            break
+    for _, tile in pairs(g_map.getTiles(posz())) do
+		for _, thing in pairs(tile:getThings()) do
+			local status, specName = pcall(function() return thing:getName() end)
+			if status and specName and #specName > 0 then
+				specName = specName:lower()
+        		if spec:isPlayer() and text:find(specName) then
+           			storage.battleTracking[3][specName] = {
+                		timeBattle = not os and now + 60000 or os.time() + 60,
+                		playerId = thing:getId()
+					}
+            		return
+				end
+			end
         end
     end
 end)
@@ -94,14 +99,14 @@ storage.widgetPos[name] = storage.widgetPos[name] or {}
 pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widgetPos[name].y or 50})
 
 
-if g_game.getWorldName() == 'Katon' then
+if g_game.getWorldName() == 'Katon' then -- fix for NTO SPLIT.
 	function getPlayerByName(name)
 		name = name:lower()
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
 				local status, thingName = pcall(function() return thing:getName() end)
 				if status and thingName and #thingName > 0 then
-					if thingName:lower() == name then
+					if thing:isPlayer() and thingName:lower() == name then
 						return thing
 					end
 				end
