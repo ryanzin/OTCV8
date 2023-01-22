@@ -89,7 +89,7 @@ pkTimeWidget.onDragLeave = function(widget, pos)
 	return true
 end
 
-if g_game.getWorldName() == 'Katon' then
+ then
 	function getPlayerByName(name)
 		if type(name) ~= 'string' then
 			name = name:getName()
@@ -114,7 +114,11 @@ storage.widgetPos[name] = storage.widgetPos[name] or {}
 pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widgetPos[name].y or 50})
 
 
-macro(1, function()
+pkTimeMacro = macro(1, function()
+	if not pkTimeAdviced and g_game.getWorldName() == 'Katon' then
+		modules.game_bot.g_logger.info('[ELFO] Tempo do PK está com inconsistências no NTO SPLIT!')
+		pkTimeAdviced = true
+	end
 	local time = os and os.time() or now
 	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
 		for specName, value in pairs(storage.battleTracking[3]) do
