@@ -95,7 +95,19 @@ pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widge
 
 
 if g_game.getWorldName() == 'Katon' then
-	modules.game_bot.g_logger.erro('[ELFO] Tempo do PK está com inconsistências no NTO SPLIT!')
+	function getPlayerByName(name)
+		name = name:lower()
+		for _, tile in pairs(g_map.getTiles(posz())) do
+			for _, thing in pairs(tile:getThings()) do
+				local status, thingName = pcall(function() return thing:getName() end)
+				if status and thingName and #thingName > 0 then
+					if thingName:lower() == name then
+						return thing
+					end
+				end
+			end
+		end
+	end					
 end
 
 pkTimeMacro = macro(1, function()
