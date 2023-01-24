@@ -12,6 +12,21 @@ addTextEdit("Area", storage.areaSpell or "Magia de Area", function(widget, text)
 	storage.areaSpell = text
 end)
 
+if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
+	function getSpectators()
+	    local specs = {}
+	    for _, tile in pairs(g_map.getTiles(posz())) do
+			for _, thing in pairs(tile:getThings()) do
+		    	local status, name = pcall(function() return thing:getName() end)
+		    	if status and name and #name > 0 then
+					table.insert(specs, thing)
+		    	end
+			end
+	    end
+	    return specs
+	end
+end
+
 local timeArea = 0
 macro(1, "Anti-Red", function()
 	local pos = pos()
