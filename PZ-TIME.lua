@@ -17,27 +17,24 @@ if type(storage.battleTracking) ~= 'table' or storage.battleTracking[2] ~= playe
 end 
 
 onTextMessage(function(mode, text)
-    text = text:lower()
-    if text:find("o assassinato de") or text:find("was not justified") or text:find("o assassinato do")then
-        storage.battleTracking[1] = not os and now + (pzTime * 60 * 1000) or os.time() + (pzTime * 60)
-        return
-    end
-    if not text:find("due to your") and not text:find("you deal") then return end
-    for _, tile in pairs(g_map.getTiles(posz())) do
+	text = text:lower()
+	if text:find("o assassinato de") or text:find("was not justified") or text:find("o assassinato do")then
+		storage.battleTracking[1] = not os and now + (pzTime * 60 * 1000) or os.time() + (pzTime * 60)
+		return
+	end
+	if not text:find("due to your") and not text:find("you deal") then return end
+	for _, tile in pairs(g_map.getTiles(posz())) do
 		for _, thing in pairs(tile:getThings()) do
 			local status, specName = pcall(function() return thing:getName() end)
 			if status and specName and #specName > 0 then
 				specName = specName:lower()
 				if thing:isPlayer() and text:find(specName) then
-           				storage.battleTracking[3][specName] = {
-                		timeBattle = not os and now + 60000 or os.time() + 60,
-                		playerId = thing:getId()
-					}
-            		return
+					storage.battleTracking[3][specName] = {timeBattle = not os and now + 60000 or os.time() + 60, playerId = thing:getId()}
+					return
 				end
 			end
-        end
-    end
+		end
+	end
 end)
 
 math.mod = math.mod or function(base, modulus)
