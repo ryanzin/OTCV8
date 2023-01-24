@@ -28,7 +28,7 @@ onTextMessage(function(mode, text)
 			local status, specName = pcall(function() return thing:getName() end)
 			if status and specName and #specName > 0 then
 				specName = specName:lower()
-        			if thing:isPlayer() and text:find(specName) then
+				if thing:isPlayer() and text:find(specName) then
            				storage.battleTracking[3][specName] = {
                 		timeBattle = not os and now + 60000 or os.time() + 60,
                 		playerId = thing:getId()
