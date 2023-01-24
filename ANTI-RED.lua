@@ -1,11 +1,13 @@
 setDefaultTab('Tools')
 
 
-
+UI.Label('Combo:')
 addTextEdit("Magias", storage.comboSpells or "magia1, magia2, magia3", function(widget, text)
 	storage.comboSpells = text
 end)
 
+
+UI.Label('Area:')
 addTextEdit("Area", storage.areaSpell or "Magia de Area", function(widget, text)
 	storage.areaSpell = text
 end)
