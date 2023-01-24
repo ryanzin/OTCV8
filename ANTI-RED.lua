@@ -14,16 +14,16 @@ end)
 
 if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 	function getSpectators()
-	    local specs = {}
-	    for _, tile in pairs(g_map.getTiles(posz())) do
-		for _, thing in pairs(tile:getThings()) do
-		    	local status, name = pcall(function() return thing:getName() end)
-		    	if status and name and #name > 0 then
-				table.insert(specs, thing)
-		    	end
+		local specs = {}
+		for _, tile in pairs(g_map.getTiles(posz())) do
+			for _, thing in pairs(tile:getThings()) do
+				local status, name = pcall(function() return thing:getName() end)
+				if status and name and #name > 0 then
+					table.insert(specs, thing)
+				end
+			end
 		end
-	    end
-	    return specs
+		return specs
 	end
 end
 
