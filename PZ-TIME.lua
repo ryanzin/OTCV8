@@ -116,7 +116,7 @@ pkTimeMacro = macro(1, function()
 	local time = os and os.time() or now
 	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
 		for specName, value in pairs(storage.battleTracking[3]) do
-			if (os and value.timeBattle >= time) or (not os and value.battleTime >= time and value.battleTime - 60000 <= time) then
+			if (os and value.timeBattle >= time) or (not os and value.timeBattle >= time and value.timeBattle - 60000 <= time) then
 				local playerSearch = getPlayerByName(specName, true)
 				if playerSearch then
 					if playerSearch:getId() == value.playerId then
