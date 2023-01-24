@@ -99,20 +99,20 @@ storage.widgetPos[name] = storage.widgetPos[name] or {}
 pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widgetPos[name].y or 50})
 
 
-if g_game.getWorldName() == 'Katon' then -- fix for NTO SPLIT.
-	function getPlayerByName(name)
-		name = name:lower()
+
+if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
+	function getSpectators()
+		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
-				local status, thingName = pcall(function() return thing:getName() end)
-				if status and thingName and #thingName > 0 then
-					if thing:isPlayer() and thingName:lower() == name then
-						return thing
-					end
+				local status, name = pcall(function() return thing:getName() end)
+				if status and name and #name > 0 then
+					table.insert(specs, thing)
 				end
 			end
 		end
-	end					
+		return specs
+	end
 end
 
 pkTimeMacro = macro(1, function()
