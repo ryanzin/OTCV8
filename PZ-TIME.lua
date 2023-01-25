@@ -1,6 +1,7 @@
 local timeTrack = {
 	['ntoultimate'] = 15,
-	['ntolost'] = 5
+	['ntolost'] = 5,
+	['katon'] = 5
 }
 
 local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
