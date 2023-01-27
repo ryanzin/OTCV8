@@ -17,8 +17,7 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
-				local status, name = pcall(function() return thing:getName() end)
-				if status and name and #name > 0 then
+				if thing:isCreature() then
 					table.insert(specs, thing)
 				end
 			end
@@ -32,7 +31,7 @@ macro(1, "Anti-Red", function()
 	local pos = pos()
 	local monstersCount = 0
 	for _, spec in pairs(getSpectators(true)) do
-		if monstersCount > 1 or timeArea > now then break end
+		if timeArea > now then break end
 		local specPos = spec:getPosition()
 		local checkPosz = math.abs(specPos.z - pos.z)
 		if checkPosz <= 3 then
