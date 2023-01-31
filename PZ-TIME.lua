@@ -111,7 +111,7 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 		end
 		return specs
 	end
-	function getPlayerByName = function(name)
+	function getPlayerByName
 		name = name:lower():trim()
 		for _, spec in ipairs(getSpecs()) do
 			if spec:getName():lower() == name then
