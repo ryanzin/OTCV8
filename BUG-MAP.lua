@@ -15,7 +15,7 @@ bugMap.checkBox.onCheckChange = function(widget, checked)
     storage.bugMapCheck = checked
 end
 
-bugMap.checkBox:setChecked(storage.bugMapCheck or true)
+bugMap.checkBox:setChecked(storage.bugMapCheck)
 
 bugMap.isKeyPressed = modules.corelib.g_keyboard.isKeyPressed
 
