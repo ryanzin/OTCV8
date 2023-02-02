@@ -33,7 +33,7 @@ bugMap.directions = {
 }
 
 bugMap.macro = macro(1, "Bug Map", function()
-    if modules.game_console:isChatEnabled() then return end
+    if modules.game_console:isChatEnabled() or modules.corelib.g_keyboard.isCtrlPressed() then return end
     local pos = pos()
     for key, config in pairs(bugMap.directions) do
         if bugMap.isKeyPressed(key) then
