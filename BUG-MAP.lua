@@ -15,7 +15,7 @@ bugMap.checkBox.onCheckChange = function(widget, checked)
     storage.bugMapCheck = checked
 end
 
-storage.bugMapCheck = storage.bugMapCheck or true
+if storage.bugMapCheck == nil then storage.bugMapCheck = true end
 
 bugMap.checkBox:setChecked(storage.bugMapCheck)
 
