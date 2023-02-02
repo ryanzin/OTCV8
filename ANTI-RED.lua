@@ -30,12 +30,13 @@ local timeArea = 0
 macro(1, "Anti-Red", function()
 	local pos = pos()
 	local monstersCount = 0
+	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea
 	for _, spec in pairs(getSpectators(true)) do
 		if timeArea > now then break end
 		local specPos = spec:getPosition()
 		local checkPosz = math.abs(specPos.z - pos.z)
 		if checkPosz <= 3 then
-			if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) or player:getSkull() >= 3 then
+			if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
 				timeArea = now + 30000
 				break
 			elseif checkPosz == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1 then
