@@ -40,9 +40,7 @@ bugMap.macro = macro(1, "Bug Map", function()
             if storage.bugMapCheck or config.direction then
                 if config.direction then turn(config.direction) end
                 local tile = g_map.getTile({x = pos.x + config.y, y = config.y, z = pos.z})
-                if tile then
-                    return g_game.use(tile:getTopUseThing())
-                end
+                if tile then return g_game.use(tile:getTopUseThing()) end
             end
         end
     end
