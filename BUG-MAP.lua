@@ -12,7 +12,7 @@ CheckBox
 ]])
 
 bugMap.checkBox.onCheckChange = function(widget, checked)
-    storage.bugMapCheck = true
+    storage.bugMapCheck = checked
 end
 
 bugMap.checkBox:setChecked(storage.bugMapCheck or true)
