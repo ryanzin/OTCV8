@@ -124,33 +124,30 @@ end
 
 pkTimeMacro = macro(1, function()
 	local time = os and os.time() or now
-	if (os and battleLastVerified ~= time) or (not os and (not battleLastVerified or battleLastVerified < time)) then
-		if isInPz() then storage.battleTracking[1] = 0 end
-		for specName, value in pairs(storage.battleTracking[3]) do
-			if (os and value.timeBattle >= time) or (not os and value.timeBattle >= time and value.timeBattle - 60000 <= time) then
-				local playerSearch = getPlayerByName(specName, true)
-				if playerSearch then
-					if playerSearch:getId() == value.playerId then
-						if playerSearch:getHealthPercent() == 0 then
-							storage.battleTracking[1] = not os and time + (pzTime * 60 * 1000) or time + (pzTime * 60)
-							storage.battleTracking[3][specName] = nil
-						end
-					else
+	if isInPz() then storage.battleTracking[1] = 0 end
+	for specName, value in pairs(storage.battleTracking[3]) do
+		if (os and value.timeBattle >= time) or (not os and value.timeBattle >= time and value.timeBattle - 60000 <= time) then
+			local playerSearch = getPlayerByName(specName, true)
+			if playerSearch then
+				if playerSearch:getId() == value.playerId then
+					if playerSearch:getHealthPercent() == 0 then
+						storage.battleTracking[1] = not os and time + (pzTime * 60 * 1000) or time + (pzTime * 60)
 						storage.battleTracking[3][specName] = nil
 					end
+				else
+					storage.battleTracking[3][specName] = nil
 				end
-			else
-				storage.battleTracking[3][specName] = nil
 			end
-		end
-		local widgetTime = pkTimeWidget
-		if storage.battleTracking[1] < time then
-			widgetTime:setText('PK Time is: 00:00')
-			widgetTime:setColor('green')
 		else
-			widgetTime:setText('PK Time is: ' .. doFormatMin(math.abs(storage.battleTracking[1] - time)))
-			widgetTime:setColor("red")
+			storage.battleTracking[3][specName] = nil
 		end
-		battleLastVerified = os and time or time + 1000
+	end
+	local widgetTime = pkTimeWidget
+	if storage.battleTracking[1] < time then
+		widgetTime:setText('PK Time is: 00:00')
+		widgetTime:setColor('green')
+	else
+		widgetTime:setText('PK Time is: ' .. doFormatMin(math.abs(storage.battleTracking[1] - time)))
+		widgetTime:setColor("red")
 	end
 end)
