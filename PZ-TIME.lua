@@ -11,11 +11,7 @@ local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
 local os = os or modules.os
 
 if type(storage.battleTracking) ~= 'table' or storage.battleTracking[2] ~= player:getId() or (not os and storage.battleTracking[1] - now > pzTime * 60 * 1000) then
-    storage.battleTracking = {
-        0,
-        player:getId(),
-        {}
-    }
+    storage.battleTracking = {0, player:getId(), {}}
 end 
 
 onTextMessage(function(mode, text)
