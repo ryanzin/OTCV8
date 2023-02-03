@@ -42,11 +42,10 @@ end
 local function doFormatMin(v)
     v = v > 1000 and v / 1000 or v
     local mins = 00
-    local seconds = 00
     if v >= 60 then
         mins = string.format("%02.f", math.floor(v / 60))
     end
-    seconds = string.format("%02.f", math.abs(math.floor(math.mod(v, 60))))
+    local seconds = string.format("%02.f", math.abs(math.floor(math.mod(v, 60))))
     return mins .. ":" .. seconds
 end
 
