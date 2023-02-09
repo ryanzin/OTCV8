@@ -21,16 +21,11 @@ onTextMessage(function(mode, text)
 		return
 	end
 	if not text:find("due to your") and not text:find("you deal") then return end
-	for _, tile in pairs(g_map.getTiles(posz())) do
-		for _, thing in pairs(tile:getThings()) do
-			local status, specName = pcall(function() return thing:getName() end)
-			if status and specName and #specName > 0 then
-				specName = specName:lower()
-				if thing:isPlayer() and text:find(specName) then
-					storage.battleTracking[3][specName] = {timeBattle = not os and now + 60000 or os.time() + 60, playerId = thing:getId()}
-					return
-				end
-			end
+	for _, spec in ipairs(getSpectators()) do
+		local specName = spec:getName():lower()
+		if spec:isPlayer() and text:find(specName) then
+			storage.battleTracking[3][specName] = {timeBattle = not os and now + 60000 or os.time() + 60, playerId = spec:getId()}
+			return
 		end
 	end
 end)
@@ -95,7 +90,7 @@ pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widge
 
 
 if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
-	function getSpecs()
+	function getSpectators()
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
@@ -109,7 +104,7 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 	end
 	function getPlayerByName(name)
 		name = name:lower():trim()
-		for _, spec in ipairs(getSpecs()) do
+		for _, spec in ipairs(getSpectators()) do
 			if spec:getName():lower() == name then
 				return spec
 			end
