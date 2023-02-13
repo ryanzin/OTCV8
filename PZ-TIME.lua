@@ -90,7 +90,7 @@ pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widge
 
 
 if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
-	function getSpectators()
+	function getSpecs()
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
@@ -104,7 +104,7 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 	end
 	function getPlayerByName(name)
 		name = name:lower():trim()
-		for _, spec in ipairs(getSpectators()) do
+		for _, spec in ipairs(getSpecs()) do
 			if spec:getName():lower() == name then
 				return spec
 			end
