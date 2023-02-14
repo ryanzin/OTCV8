@@ -13,7 +13,7 @@ addTextEdit("Area", storage.areaSpell or "Magia de Area", function(widget, text)
 end)
 
 if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
-	function getSpectators()
+	function getSpecs()
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
@@ -31,7 +31,7 @@ macro(1, "Anti-Red", function()
 	local pos = pos()
 	local monstersCount = 0
 	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea
-	for _, spec in pairs(getSpectators(true)) do
+	for _, spec in pairs(getSpecs and getSpecs() or getSpectators(true)) do
 		if timeArea > now then break end
 		local specPos = spec:getPosition()
 		local checkPosz = math.abs(specPos.z - pos.z)
