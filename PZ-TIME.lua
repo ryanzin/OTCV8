@@ -2,13 +2,14 @@ local timeTrack = {
 	['ntoultimate'] = 15,
 	['ntolost'] = 5,
 	['katon'] = 5, -- NTO SPLIT
-	['dbolost'] = 2
+	['dbolost'] = 2,
+	['dragon ball rising'] = 5
 }
 
 local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
 	
 
-local os = os or modules.os
+os = os or modules.os
 
 if type(storage.battleTracking) ~= 'table' or storage.battleTracking[2] ~= player:getId() or (not os and storage.battleTracking[1] - now > pzTime * 60 * 1000) then
     storage.battleTracking = {0, player:getId(), {}}
@@ -25,7 +26,7 @@ onTextMessage(function(mode, text)
 		local specName = spec:getName():lower()
 		if spec:isPlayer() and text:find(specName) then
 			storage.battleTracking[3][specName] = {timeBattle = not os and now + 60000 or os.time() + 60, playerId = spec:getId()}
-			return
+			break
 		end
 	end
 end)
@@ -61,11 +62,11 @@ UIWidget
 
 
 pkTimeWidget.onDragEnter = function(widget, mousePos)
-	if not modules.corelib.g_keyboard.isCtrlPressed() then
+	if not (modules.corelib.g_keyboard.isCtrlPressed()) then
 		return false
 	end
 	widget:breakAnchors()
-	widget.movingReference = { x = mousePos.x - widget:getX(), y = mousePos.y - widget:getY() }
+	widget.movingReference = {x = mousePos.x - widget:getX(), y = mousePos.y - widget:getY()}
 	return true
 end
 
@@ -74,12 +75,7 @@ pkTimeWidget.onDragMove = function(widget, mousePos, moved)
 	local x = math.min(math.max(parentRect.x, mousePos.x - widget.movingReference.x), parentRect.x + parentRect.width - widget:getWidth())
 	local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight())        
 	widget:move(x, y)
-	return true
-end
-
-pkTimeWidget.onDragLeave = function(widget, pos)
-	storage.widgetPos['pkTimeWidget'].x = widget:getX()
-	storage.widgetPos['pkTimeWidget'].y = widget:getY()
+	storage.widgetPos['pkTimeWidget'] = {x = x, y = y}
 	return true
 end
 
@@ -94,8 +90,7 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
 			for _, thing in pairs(tile:getThings()) do
-				local status, name = pcall(function() return thing:getName() end)
-				if status and name and #name > 0 then
+				if (thing:isCreature()) then
 					table.insert(specs, thing)
 				end
 			end
@@ -132,12 +127,12 @@ pkTimeMacro = macro(1, function()
 			storage.battleTracking[3][specName] = nil
 		end
 	end
-	local widgetTime = pkTimeWidget
+	local timeWidget = pkTimeWidget
 	if storage.battleTracking[1] < time then
-		widgetTime:setText('PK Time is: 00:00')
-		widgetTime:setColor('green')
+		timeWidget:setText('PK Time is: 00:00')
+		timeWidget:setColor('green')
 	else
-		widgetTime:setText('PK Time is: ' .. doFormatMin(storage.battleTracking[1] - time))
-		widgetTime:setColor("red")
+		timeWidget:setText('PK Time is: ' .. doFormatMin(storage.battleTracking[1] - time))
+		timeWidget:setColor("red")
 	end
 end)
