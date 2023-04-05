@@ -15,7 +15,9 @@ end)
 if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 	function getSpecs()
 		local specs = {}
-		for _, tile in pairs(g_map.getTiles(posz())) do
+		local tiles = g_map.getTiles(posz())
+		for i = 1, #tiles do
+			local tile = tiles[i]
 			for _, thing in pairs(tile:getThings()) do
 				if thing:isCreature() then
 					table.insert(specs, thing)
