@@ -31,7 +31,9 @@ macro(1, "Anti-Red", function()
 	local pos = pos()
 	local monstersCount = 0
 	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea
-	for _, spec in pairs(getSpecs and getSpecs() or getSpectators(true)) do
+	local specs = getSpecs and getSpecs() or getSpectators(true)
+	for i = 1, #specs do
+		local spec = specs[i]
 		if timeArea > now then break end
 		local specPos = spec:getPosition()
 		local checkPosz = math.abs(specPos.z - pos.z)
