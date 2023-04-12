@@ -1,5 +1,3 @@
-setDefaultTab('Tools')
-
 macro(1, 'xSense', 'F12', function()
     if storage.Sense then
         locatePlayer = getPlayerByName(storage.Sense)
@@ -8,12 +6,12 @@ macro(1, 'xSense', 'F12', function()
             delay(1000)
         end
     end
-end)
+end, mainTab)
 
 
 onTalk(function(name, level, mode, text, channelId, pos)
     if player:getName() == name then
-        if string.sub(text, 1, 1) == 'x' then
+        if string.sub(text, 1, 1):lower() == 'x' then
             local checkMsg = string.sub(text, 2):trim()
             if checkMsg == '0' then
                 storage.Sense = false
