@@ -10,7 +10,7 @@ keepTarget.macro = macro(1, "Attack target", function()
 	local target = g_game.getAttackingCreature();
 	if target then
 		local targetId = target:getId();
-		if keepTarget.storageId ~= targetId then
+		if (keepTarget.storageId ~= targetId) then
 			keepTarget.storageId = targetId;
 		end
 		return;
