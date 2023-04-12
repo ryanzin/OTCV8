@@ -21,6 +21,6 @@ keepTarget.macro = macro(1, "Attack target", function()
 				g_game.attack(findCreature);
 			end
 			return delay(findCreature and 500 or 100);
-        end
+        	end
 	end
 end, mainTab)
