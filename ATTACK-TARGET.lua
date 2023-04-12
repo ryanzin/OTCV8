@@ -3,7 +3,7 @@ local keepTarget = {}
 keepTarget.keyCancel = "Escape"
 
 keepTarget.macro = macro(1, "Attack target", function()
-	if modules.corelib.g_keyboard.isKeyPressed(keepTarget.keyCancel) then
+	if (modules.corelib.g_keyboard.isKeyPressed(keepTarget.keyCancel)) then
 		keepTarget.storageId = nil;
 		return g_game.cancelAttack();
 	end
@@ -15,9 +15,9 @@ keepTarget.macro = macro(1, "Attack target", function()
 		end
 		return;
 	else
-		if keepTarget.storageId then
+		if (keepTarget.storageId) then
 			local findCreature = getCreatureById(keepTarget.storageId);
-			if findCreature then
+			if (findCreature) then
 				g_game.attack(findCreature);
 			end
 			return delay(findCreature and 500 or 100);
