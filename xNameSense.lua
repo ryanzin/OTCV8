@@ -10,14 +10,13 @@ end, mainTab)
 
 
 onTalk(function(name, level, mode, text, channelId, pos)
-    if player:getName() == name then
-        if string.sub(text, 1, 1):lower() == 'x' then
-            local checkMsg = string.sub(text, 2):trim()
-            if checkMsg == '0' then
-                storage.Sense = false
-            else
-                storage.Sense = checkMsg
-            end
+    if (player:getName() ~= name) then return; end
+    if string.sub(text, 1, 1):lower() == 'x' then
+        local checkMsg = string.sub(text, 2):trim()
+        if checkMsg == '0' then
+            storage.Sense = false;
+        else
+            storage.Sense = checkMsg;
         end
     end
 end)
