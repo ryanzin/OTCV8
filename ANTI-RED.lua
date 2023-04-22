@@ -35,13 +35,13 @@ macro(1, "Anti-Red", function()
 		if (timeArea > now) then break; end
 		local specPos = spec:getPosition();
 		local floorDiff = math.abs(specPos.z - pos.z);
-		if (floorDif > 3) then
+		if (floorDiff > 3) then
 			goto continue;
 		end
 		if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
 			timeArea = now + 30000;
 			break
-		elseif floorDiff == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1 then
+		elseif (floorDiff == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1) then
 			monstersCount = monstersCount + 1;
 		end
 		::continue::
