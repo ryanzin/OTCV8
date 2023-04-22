@@ -9,16 +9,15 @@ addTextEdit("Area", storage.areaSpell or "Magia de Area", function(widget, text)
 	storage.areaSpell = text;
 end)
 
-if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
-	function getSpecs()
+if (not getSpectators or #getSpectators(true) == 0) then
+	function getSpectators()
 		local specs = {};
 		local tiles = g_map.getTiles(posz());
 		for i = 1, #tiles do
 			local tile = tiles[i];
-			for _, thing in pairs(tile:getThings()) do
-				if (thing:isCreature()) then
-					table.insert(specs, thing);
-				end
+			local creatures = tile:getCreatures();
+			if (#creatures > 0) then
+				table.insert(specs, creatures);
 			end
 		end
 		return specs;
@@ -30,20 +29,22 @@ macro(1, "Anti-Red", function()
 	local pos = pos();
 	local monstersCount = 0;
 	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea;
-	local specs = getSpecs and getSpecs() or getSpectators(true);
+	local specs = getSpectators(true);
 	for i = 1, #specs do
 		local spec = specs[i];
 		if (timeArea > now) then break; end
 		local specPos = spec:getPosition();
-		local checkPosz = math.abs(specPos.z - pos.z);
-		if checkPosz <= 3 then
-			if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
-				timeArea = now + 30000;
-				break
-			elseif checkPosz == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1 then
-				monstersCount = monstersCount + 1;
-			end
+		local floorDiff = math.abs(specPos.z - pos.z);
+		if (floorDif > 3) then
+			goto continue;
 		end
+		if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
+			timeArea = now + 30000;
+			break
+		elseif floorDiff == 0 and spec:isMonster() and getDistanceBetween(specPos, pos) == 1 then
+			monstersCount = monstersCount + 1;
+		end
+		::continue::
 	end
 	if monstersCount > 1 and (not timeArea or timeArea < now) then
 		return say(storage.areaSpell);
