@@ -89,16 +89,17 @@ if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
 	function getSpecs()
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
-			for _, thing in pairs(tile:getThings()) do
-				if (thing:isCreature()) then
-					table.insert(specs, thing)
+			local creatures = tile:getCreatures();
+			if (#creatures > 0) then
+				for i = 1, #creatures do
+					table.insert(specs, creatures[i]);
 				end
 			end
 		end
 		return specs
 	end
 	function getPlayerByName(name)
-		name = name:lower():trim()
+		name = name:lower():trim();
 		for _, spec in ipairs(getSpecs()) do
 			if spec:getName():lower() == name then
 				return spec
