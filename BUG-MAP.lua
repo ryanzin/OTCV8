@@ -1,7 +1,3 @@
-local mainTab = tabs:getTab('Tools') and 'Tools' or 'Main'
-setDefaultTab(mainTab)
-
-
 local bugMap = {}
 
 bugMap.checkBox = setupUI([[
@@ -44,4 +40,4 @@ bugMap.macro = macro(1, "Bug Map", function()
             end
         end
     end
-end)
+end, mainTab)
