@@ -31,13 +31,11 @@ macro(1, "Anti-Red", function()
 	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea;
 	local specs = getSpectators(true);
 	for i = 1, #specs do
-		local spec = specs[i];
 		if (timeArea > now) then break; end
+		local spec = specs[i];
 		local specPos = spec:getPosition();
 		local floorDiff = math.abs(specPos.z - pos.z);
-		if (floorDiff > 3) then
-			goto continue;
-		end
+		if (floorDiff > 3) then goto continue; end
 		if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
 			timeArea = now + 30000;
 			break
