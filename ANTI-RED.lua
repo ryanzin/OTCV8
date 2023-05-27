@@ -1,7 +1,24 @@
 UI.Label('Combo:')
+
+
+
+local refreshSpells = function()
+	castingSpells = {};
+	if (storage.comboSpells) then
+		local split = storage.comboSpells:split(",");
+		for _, spell in ipairs(split) do
+			table.insert(castingSpells, spell);
+		end
+	end
+end
+
+
 addTextEdit("Magias", storage.comboSpells or "magia1, magia2, magia3", function(widget, text)
 	storage.comboSpells = text;
+	refreshSpells();
 end)
+
+refreshSpells();
 
 
 UI.Label('Area:')
@@ -26,13 +43,10 @@ end
 
 local timeArea = 0;
 macro(1, "Anti-Red", function()
-	local pos = pos();
-	local monstersCount = 0;
+	local pos, monstersCount = pos(), 0;
 	timeArea = player:getSkull() >= 3 and now + 30000 or timeArea;
 	local specs = getSpectators(true);
-	for i = 1, #specs do
-		if (timeArea > now) then break; end
-		local spec = specs[i];
+	for _, spec in ipairs(specs) do
 		local specPos = spec:getPosition();
 		local floorDiff = math.abs(specPos.z - pos.z);
 		if (floorDiff > 3) then goto continue; end
@@ -48,7 +62,7 @@ macro(1, "Anti-Red", function()
 		return say(storage.areaSpell);
 	end
 	if (not g_game.isAttacking()) then return; end
-   	for _, spell in ipairs(storage.comboSpells:split(',')) do
+   	for _, spell in ipairs(castingSpells) do
 		say(spell);
 	end
 end)
