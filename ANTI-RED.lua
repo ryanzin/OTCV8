@@ -14,7 +14,7 @@ UIWidget
 
 
 antiRedTimeWidget.onDragEnter = function(widget, mousePos)
-	if not (modules.corelib.g_keyboard.isCtrlPressed()) then return; end
+	if (not modules.corelib.g_keyboard.isCtrlPressed()) then return; end
 	widget:breakAnchors();
 	local widgetPos = widget:getPosition();
 	widget.movingReference = {x = mousePos.x - widgetPos.x, y = mousePos.y - widgetPos.y};
@@ -41,7 +41,7 @@ local refreshSpells = function()
 	if (storage.comboSpells) then
 		local split = storage.comboSpells:split(",");
 		for _, spell in ipairs(split) do
-			table.insert(castingSpells, spell);
+			table.insert(castingSpells, spell:trim());
 		end
 	end
 end
