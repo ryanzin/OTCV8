@@ -96,7 +96,7 @@ macro(1, "Anti-Red", function()
 		antiRedTimeWidget:show();
 		local diff = storage.antiRedTime - now;
 		diff = diff / 1000;
-		antiRedTimeWidget:setText(tr("AREA BLOCKED FOR %d seconds.", toInteger(diff)));
+		antiRedTimeWidget:setText(tr("AREA BLOCKED FOR %d SECONDS.", toInteger(diff)));
 	else
 		antiRedTimeWidget:hide();
 	end
