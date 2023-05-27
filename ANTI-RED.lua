@@ -92,16 +92,17 @@ end
 
 macro(1, "Anti-Red", function()
 	local pos, monstersCount = pos(), 0;
+	if (player:getSkull() >= 3) then
+		addAntiRedTime();
+	end
 	if (storage.antiRedTime >= now) then
 		antiRedTimeWidget:show();
 		local diff = storage.antiRedTime - now;
 		diff = diff / 1000;
 		antiRedTimeWidget:setText(tr("AREA BLOCKED FOR %d SECONDS.", toInteger(diff)));
+		antiRedTimeWidget:setColor("red");
 	else
 		antiRedTimeWidget:hide();
-	end
-	if (player:getSkull() >= 3) then
-		addAntiRedTime();
 	end
 	local specs = getSpectators(true);
 	for _, spec in ipairs(specs) do
@@ -116,7 +117,7 @@ macro(1, "Anti-Red", function()
 		end
 		::continue::
 	end
-	if monstersCount > 1 and (not timeArea or timeArea < now) then
+	if (monstersCount > 1 and storage.antiRedTime < now) then
 		return say(storage.areaSpell);
 	end
 	if (not g_game.isAttacking()) then return; end
