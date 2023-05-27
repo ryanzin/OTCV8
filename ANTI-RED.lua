@@ -14,7 +14,7 @@ UIWidget
 
 
 antiRedTimeWidget.onDragEnter = function(widget, mousePos)
-	if not (modules.corelib.g_keyboard.isAltPressed()) then return; end
+	if not (modules.corelib.g_keyboard.isCtrlPressed()) then return; end
 	widget:breakAnchors();
 	local widgetPos = widget:getPosition();
 	widget.movingReference = {x = mousePos.x - widgetPos.x, y = mousePos.y - widgetPos.y};
