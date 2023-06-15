@@ -71,9 +71,9 @@ comboConfig.vocations = {
 	},
 	
 	['Freeza'] = {
-		['canudo'] = 'Ultra Dead Flash',
+		['canudo'] = 'Death Razor',
 		['impact'] = 'Combo Impact',
-		['umTiro'] = 'Evil Kienzan',
+		['umTiro'] = 'Nova',
 		['fast'] = 'Nova Blast'
 	},
 	
