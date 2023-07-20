@@ -100,15 +100,6 @@ macro(1, "Anti-Red", function()
 	if (player:getSkull() >= 3) then
 		addAntiRedTime();
 	end
-	if (storage.antiRedTime >= now) then
-		antiRedTimeWidget:show();
-		local diff = storage.antiRedTime - now;
-		diff = diff / 1000;
-		antiRedTimeWidget:setText(tr("Area blocked for %ds.", toInteger(diff)));
-		antiRedTimeWidget:setColor("red");
-	elseif (not antiRedTimeWidget:isHidden()) then
-		antiRedTimeWidget:hide();
-	end
 	local specs = getSpectators(true);
 	for _, spec in ipairs(specs) do
 		local specPos = spec:getPosition();
@@ -123,6 +114,15 @@ macro(1, "Anti-Red", function()
 			monstersCount = monstersCount + 1;
 		end
 		::continue::
+	end
+	if (storage.antiRedTime >= now) then
+		antiRedTimeWidget:show();
+		local diff = storage.antiRedTime - now;
+		diff = diff / 1000;
+		antiRedTimeWidget:setText(tr("Area blocked for %ds.", toInteger(diff)));
+		antiRedTimeWidget:setColor("red");
+	elseif (not antiRedTimeWidget:isHidden()) then
+		antiRedTimeWidget:hide();
 	end
 	if (monstersCount > 1 and storage.antiRedTime < now) then
 		return say(storage.areaSpell);
