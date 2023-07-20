@@ -10,7 +10,7 @@ UIWidget
   focusable: true
   phantom: false
   draggable: true
-]], g_ui.getRootWidget())
+]], g_ui.getRootWidget());
 
 local isMobile = modules._G.g_app.isMobile();
 g_keyboard = g_keyboard or modules.corelib.g_keyboard;
