@@ -67,14 +67,14 @@ addTextEdit("Area", storage.areaSpell or "Magia de Area", function(widget, text)
 end)
 
 if (not getSpectators or #getSpectators(true) == 0) then
-	function getSpectators()
+	getSpectators = function()
 		local specs = {};
 		local tiles = g_map.getTiles(posz());
 		for i = 1, #tiles do
 			local tile = tiles[i];
 			local creatures = tile:getCreatures();
-			if (#creatures > 0) then
-				table.insert(specs, creatures);
+			for _, spec in ipairs(creatures) do
+				table.insert(specs, creature);
 			end
 		end
 		return specs;
