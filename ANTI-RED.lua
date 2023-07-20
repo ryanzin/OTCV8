@@ -12,9 +12,15 @@ UIWidget
   draggable: true
 ]], g_ui.getRootWidget())
 
+local isMobile = modules._G.g_app.isMobile();
+g_keyboard = g_keyboard or modules.corelib.g_keyboard;
+
+local isDragKeyPressed = function()
+	return isMobile and g_keyboard.isKeyPressed("F2") or g_keyboard.isCtrlPressed();
+end
 
 antiRedTimeWidget.onDragEnter = function(widget, mousePos)
-	if (not modules.corelib.g_keyboard.isCtrlPressed()) then return; end
+	if (not isDragKeyPressed()) then return; end
 	widget:breakAnchors();
 	local widgetPos = widget:getPosition();
 	widget.movingReference = {x = mousePos.x - widgetPos.x, y = mousePos.y - widgetPos.y};
@@ -27,7 +33,7 @@ antiRedTimeWidget.onDragMove = function(widget, mousePos, moved)
 	local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight());   
 	widget:move(x, y);
 	storage.widgetPos.antiRedTime = {x = x, y = y};
-	return true
+	return true;
 end
 
 local name = "antiRedTime";
@@ -78,7 +84,6 @@ end
 if (not storage.antiRedTime or storage.antiRedTime - 30000 > now) then
 	storage.antiRedTime = 0;
 end
-
 
 local addAntiRedTime = function()
 	storage.antiRedTime = now + 30000;
