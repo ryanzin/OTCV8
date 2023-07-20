@@ -106,7 +106,7 @@ macro(1, "Anti-Red", function()
 		diff = diff / 1000;
 		antiRedTimeWidget:setText(tr("Area blocked for %ds.", toInteger(diff)));
 		antiRedTimeWidget:setColor("red");
-	else
+	elseif (not antiRedTimeWidget:isHidden()) then
 		antiRedTimeWidget:hide();
 	end
 	local specs = getSpectators(true);
