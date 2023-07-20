@@ -1,4 +1,4 @@
-UI.Label('Combo:')
+UI.Label('Spells:');
 
 storage.widgetPos = storage.widgetPos or {};
 
