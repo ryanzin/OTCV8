@@ -84,10 +84,10 @@ local addAntiRedTime = function()
 	storage.antiRedTime = now + 30000;
 end
 
-local toInteger = function(t)
-	t = tostring(t);
-	t = t:split(".");
-	return tonumber(t[1]);
+local toInteger = function(number)
+	number = tostring(number);
+	number = number:split(".");
+	return tonumber(number[1]);
 end
 
 macro(1, "Anti-Red", function()
@@ -99,7 +99,7 @@ macro(1, "Anti-Red", function()
 		antiRedTimeWidget:show();
 		local diff = storage.antiRedTime - now;
 		diff = diff / 1000;
-		antiRedTimeWidget:setText(tr("AREA BLOCKED FOR %d SECONDS.", toInteger(diff)));
+		antiRedTimeWidget:setText(tr("Area blocked for %ds.", toInteger(diff)));
 		antiRedTimeWidget:setColor("red");
 	else
 		antiRedTimeWidget:hide();
@@ -108,7 +108,9 @@ macro(1, "Anti-Red", function()
 	for _, spec in ipairs(specs) do
 		local specPos = spec:getPosition();
 		local floorDiff = math.abs(specPos.z - pos.z);
-		if (floorDiff > 3) then goto continue; end
+		if (floorDiff > 3) then 
+			goto continue;
+		end
 		if (spec ~= player and spec:isPlayer() and spec:getEmblem() ~= 1 and spec:getShield() < 3) then
 			addAntiRedTime();
 			break
