@@ -1,5 +1,5 @@
 magOrder = {
-	{'Final', 4, 700, 135},
+	{'Final Impact', 4, 700, 135},
 	{'Impact', 3, 500, 130},
 	{'Blast', 1, 200, 0}
 }
