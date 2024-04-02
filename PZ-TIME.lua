@@ -4,7 +4,7 @@ local timeTrack = {
 	["katon"] = 5, -- NTO SPLIT
 	["dbolost"] = 2,
 	["dragon ball rising"] = 5,
-	["dbo glaxy"] = 5
+	["dbo galaxy"] = 5
 }
 
 local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
