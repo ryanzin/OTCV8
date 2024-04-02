@@ -1,9 +1,10 @@
 local timeTrack = {
-	['ntoultimate'] = 15,
-	['ntolost'] = 5,
-	['katon'] = 5, -- NTO SPLIT
-	['dbolost'] = 2,
-	['dragon ball rising'] = 5
+	["ntoultimate"] = 15,
+	["ntolost"] = 5,
+	["katon"] = 5, -- NTO SPLIT
+	["dbolost"] = 2,
+	["dragon ball rising"] = 5,
+	["dbo glaxy"] = 5
 }
 
 local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
@@ -11,7 +12,7 @@ local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
 
 os = os or modules.os
 
-if type(storage.battleTracking) ~= 'table' or storage.battleTracking[2] ~= player:getId() or (not os and storage.battleTracking[1] - now > pzTime * 60 * 1000) then
+if type(storage.battleTracking) ~= "table" or storage.battleTracking[2] ~= player:getId() or (not os and storage.battleTracking[1] - now > pzTime * 60 * 1000) then
     storage.battleTracking = {0, player:getId(), {}}
 end 
 
@@ -76,7 +77,7 @@ pkTimeWidget.onDragMove = function(widget, mousePos, moved)
 	local x = math.min(math.max(parentRect.x, mousePos.x - widget.movingReference.x), parentRect.x + parentRect.width - widget:getWidth())
 	local y = math.min(math.max(parentRect.y - widget:getParent():getMarginTop(), mousePos.y - widget.movingReference.y), parentRect.y + parentRect.height - widget:getHeight())        
 	widget:move(x, y)
-	storage.widgetPos['pkTimeWidget'] = {x = x, y = y}
+	storage.widgetPos["pkTimeWidget"] = {x = x, y = y}
 	return true
 end
 
@@ -86,7 +87,7 @@ pkTimeWidget:setPosition({x = storage.widgetPos[name].x or 50, y = storage.widge
 
 
 
-if g_game.getWorldName() == 'Katon' then -- FIX NTO SPLIT
+if g_game.getWorldName() == "Katon" then -- FIX NTO SPLIT
 	function getSpecs()
 		local specs = {}
 		for _, tile in pairs(g_map.getTiles(posz())) do
@@ -131,10 +132,10 @@ pkTimeMacro = macro(1, function()
 	end
 	local timeWidget = pkTimeWidget
 	if storage.battleTracking[1] < time then
-		timeWidget:setText('PK Time is: 00:00')
-		timeWidget:setColor('green')
+		timeWidget:setText("PK Time is: 00:00")
+		timeWidget:setColor("green")
 	else
-		timeWidget:setText('PK Time is: ' .. doFormatMin(storage.battleTracking[1] - time))
+		timeWidget:setText("PK Time is: " .. doFormatMin(storage.battleTracking[1] - time))
 		timeWidget:setColor("red")
 	end
 end)
