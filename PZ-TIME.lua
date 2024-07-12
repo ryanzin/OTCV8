@@ -7,6 +7,8 @@ local timeTrack = {
 	["dbo galaxy"] = 5
 }
 
+local storage = tyrBot and tyrBot.storage or storage;
+
 local pzTime = timeTrack[g_game.getWorldName():lower()] or 15
 	
 
