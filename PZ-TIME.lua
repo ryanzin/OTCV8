@@ -4,7 +4,8 @@ local timeTrack = {
 	["katon"] = 5, -- NTO SPLIT
 	["dbolost"] = 2,
 	["dragon ball rising"] = 5,
-	["dbo galaxy"] = 5
+	["dbo galaxy"] = 5,
+	["dbo infinity duel"] = 5
 }
 
 local storage = tyrBot and tyrBot.storage or storage;
